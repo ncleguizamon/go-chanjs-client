@@ -1,11 +1,20 @@
 package chanjs
 
 import (
+    "encoding/json"
     "github.com/gorilla/websocket"
 )
 
-type WebSocketConn struct {
-    conn *websocket.Conn
+type EventMessage struct {
+    Name      string          `json:"name"`
+    MessageID string          `json:"message_id"`
+    Payload   json.RawMessage `json:"payload"`
+}
+
+func parseEventMessage(msgBytes []byte) EventMessage {
+    var evt EventMessage
+    _ = json.Unmarshal(msgBytes, &evt)
+    return evt
 }
 
 func NewWebSocketConn(opts Options) (*WebSocketConn, error) {
