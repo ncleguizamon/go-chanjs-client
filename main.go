@@ -8,9 +8,9 @@ import (
 
 func main() {
     opts  := chanjs.Options{
-    SocketURL:             "wss://financiacion-int-qa.apps.ambientesbc.com/saf/api/v1/adfsender/ws/?channel=17f8684a4ba933d29fa80e13a886f3d5.c6d26fe8f3a64e36b893a72cc1bc47ea",
-    ChannelRef:            "17f8684a4ba933d29fa80e13a886f3d5.c6d26fe8f3a64e36b893a72cc1bc47ea",
-    ChannelSecret:         "Auth::SFMyNTY.g2gDaANtAAAAQTE3Zjg2ODRhNGJhOTMzZDI5ZmE4MGUxM2E4ODZmM2Q1LmM2ZDI2ZmU4ZjNhNjRlMzZiODkzYTcyY2MxYmM0N2VhbQAAAAZmcm9uZDFtAAAAC1VTRVJARE9NQUlObgYAbHZm95gBYgABUYA.l8GCYS8tgqansoxGvP2OrY4WTkNZh3s3fhfRL0vKCTw",
+    SocketURL:             "wss://host/api/v1/adfsender/ws/",
+    ChannelRef:            "17f8684a4ba933d29fa80e13",
+    ChannelSecret:         "SFMyNTY.g2gDaANtAAAAQTE3Zjg2ODRhNGJhOTMzZDI5ZmE4MGUxM2E4ODZmM2Q1LjY5Yzk2YWI3NjU4NjQ1YTI5OGZjMWU5NjQyYmZhNzExbQAAAAZmcm9uZDFtAAAAC1VTRVJARE9NQUlObgYAhK19B5kBYgABUYA.t1L88xr1F6mFcJVR6YN2IkVpa_1Bi0VCIIPEmWneEjo",
     HeartbeatInterval:     200 * time.Millisecond,
     EnableBinaryTransport: false,
     InsecureSkipVerify: true,
@@ -21,7 +21,7 @@ func main() {
         fmt.Println(err)
         panic(err)
     }
-   client.SendMessage(opts.ChannelSecret)
+   //client.SendMessage(opts.ChannelSecret)
     //if err != nil {
    // log.Println("Failed to send message:", err)
      //}
@@ -30,6 +30,7 @@ func main() {
         fmt.Println("Evento recibido:", payload)
     })
 
+//client.Close()
     // Mantener el programa corriendo (por ejemplo, usando un canal vacío)
   //  select {}
 }
