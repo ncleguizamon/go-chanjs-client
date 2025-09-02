@@ -39,6 +39,7 @@ func NewClient(opts Options) (*AsyncClient, error) {
         dedup: dc,
     }
     go client.runHeartbeat()
+    client.SendMessage("Auth::" + opts.ChannelSecret)//  Auth
     return client, nil
 }
     
@@ -57,12 +58,13 @@ func (c *AsyncClient) Close() error {
 
 func (c *AsyncClient) ListenEvent(pattern string, callback func(interface{})) {
    log.Println("👂 Iniciando escuta de mensagens WebSocket..." + pattern)
-    c.ws.Listen(func(evt EventMessage) {
-        log.Println("EventMessage" + evt.MessageID)
-        if matchPattern(pattern, evt.Name) {
-            if c.dedup != nil && c.dedup.IsDuplicate(evt.MessageID) {
+    c.ws.Listen(func(evt *EventMessage) {
+        if matchPattern(pattern, evt.EventName) {
+            if c.dedup != nil && c.dedup.IsDuplicate(evt.ID) {
                 return
             }
+            log.Println("EventMessage " + evt.ID)
+            c.SendMessage("Ack::" + evt.ID)// confim message 
             callback(evt.Payload)
         }
     })
